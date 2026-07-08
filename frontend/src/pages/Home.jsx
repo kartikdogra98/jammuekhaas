@@ -60,28 +60,33 @@ const Home = () => {
     </motion.p>
 
     <motion.form
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-      onSubmit={(e) => {
-        e.preventDefault();
-        window.location.href = `/restaurants?search=${encodeURIComponent(search)}`;
-      }}
-      className="mt-8 flex max-w-lg bg-white/95 backdrop-blur rounded-full shadow-2xl overflow-hidden"
-    >
-      <input
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search restaurants or dishes..."
-        className="flex-1 px-5 py-3 text-dogra-slate focus:outline-none"
-      />
-      <button
-        type="submit"
-        className="bg-dogra-gold text-dogra-slate px-6 flex items-center gap-2 font-semibold hover:bg-yellow-400 transition"
-      >
-        <FiSearch /> Search
-      </button>
-    </motion.form>
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.2 }}
+  onSubmit={(e) => {
+    e.preventDefault();
+    window.location.href = `/restaurants?search=${encodeURIComponent(search)}`;
+  }}
+  className="mt-8 flex w-full max-w-xl mx-auto bg-white/95 backdrop-blur rounded-xl shadow-2xl overflow-hidden"
+>
+  <input
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    placeholder="Search restaurants or dishes..."
+    className="flex-1 h-12 px-4 text-dogra-slate focus:outline-none text-sm md:text-base"
+  />
+
+  <button
+    type="submit"
+    className="bg-dogra-gold text-dogra-slate w-12 h-12 md:w-auto md:px-6 flex items-center justify-center font-semibold hover:bg-yellow-400 transition"
+  >
+    <FiSearch className="text-xl" />
+
+    <span className="hidden md:inline ml-2">
+      Search
+    </span>
+  </button>
+</motion.form>
   </div>
 </section>
 
