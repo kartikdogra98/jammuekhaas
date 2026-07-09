@@ -14,6 +14,9 @@ const run = async () => {
   await Promise.all([
     Category.deleteMany({}),
     Coupon.deleteMany({}),
+    Restaurant.deleteMany({}),
+    Food.deleteMany({}),
+    User.deleteMany({ role: "restaurant" }),
   ]);
 
   const categories = await Category.insertMany([
@@ -69,18 +72,52 @@ const run = async () => {
         {
           category: categories[0]._id,
           name: "Butter Chicken",
-          description: "Creamy butter chicken.",
+          description: "Creamy butter chicken cooked in rich tomato gravy.",
           price: 320,
           isVeg: false,
+          image:{url:"/images/foods/dogra-chicken-corner/butter-chicken.jpg",public_id:""}
         },
         {
           category: categories[0]._id,
           name: "Kaladi Kulcha",
-          description: "Traditional Jammu Kaladi.",
-          price: 180,
-          isVeg: true,
+          description: "Traditional Jammu Kaladi cheese with kulcha.",
+          price:180,
+          isVeg:true,
+          image:{url:"/images/foods/dogra-chicken-corner/kaladi-kulcha.jpg",public_id:""}
         },
-      ],
+        {
+          category: categories[0]._id,
+          name:"Rajma Chawal",
+          description:"Authentic Dogra Rajma with steamed rice.",
+          price:170,
+          isVeg:true,
+          image:{url:"/images/foods/dogra-chicken-corner/rajma-chawal.jpg",public_id:""}
+        },
+        {
+          category: categories[0]._id,
+          name:"Mutton Rogan Josh",
+          description:"Slow-cooked mutton in aromatic spices.",
+          price:420,
+          isVeg:false,
+          image:{url:"/images/foods/dogra-chicken-corner/mutton-rogan-josh.jpg",public_id:""}
+        },
+        {
+          category: categories[0]._id,
+          name:"Tandoori Chicken",
+          description:"Charcoal grilled spicy chicken.",
+          price:350,
+          isVeg:false,
+          image:{url:"/images/foods/dogra-chicken-corner/tandoori-chicken.jpg",public_id:""}
+        },
+        {
+          category: categories[0]._id,
+          name:"Chicken Biryani",
+          description:"Fragrant basmati rice with chicken.",
+          price:280,
+          isVeg:false,
+          image:{url:"/images/foods/dogra-chicken-corner/chicken-biryani.jpg",public_id:""}
+        }
+        ]
     },
   
     {
@@ -110,22 +147,56 @@ const run = async () => {
         deliveryFee: 30,
         avgDeliveryTime: 30,
       },
-      foods: [
+      foods:[
         {
-          category: categories[0]._id,
-          name: "Rajma Chawal",
-          description: "Dogra style Rajma.",
-          price: 180,
-          isVeg: true,
+        category:categories[0]._id,
+        name:"Rajma Chawal",
+        description:"Traditional Jammu Rajma.",
+        price:180,
+        isVeg:true,
+        image:{url:"/images/foods/jammu-zaika/rajma-chawal.jpg",public_id:""}
         },
         {
-          category: categories[0]._id,
-          name: "Ambal",
-          description: "Sweet and sour pumpkin curry.",
-          price: 150,
-          isVeg: true,
+        category:categories[0]._id,
+        name:"Ambal",
+        description:"Sweet & sour pumpkin curry.",
+        price:150,
+        isVeg:true,
+        image:{url:"/images/foods/jammu-zaika/ambal.jpg",public_id:""}
         },
-      ],
+        {
+        category:categories[0]._id,
+        name:"Khatta Meat",
+        description:"Tangy Dogra style mutton.",
+        price:380,
+        isVeg:false,
+        image:{url:"/images/foods/jammu-zaika/khatta-meat.jpg",public_id:""}
+        },
+        {
+        category:categories[0]._id,
+        name:"Kaladi Fry",
+        description:"Pan-fried Kaladi cheese.",
+        price:180,
+        isVeg:true,
+        image:{url:"/images/foods/jammu-zaika/kaladi-fry.jpg",public_id:""}
+        },
+        {
+        category:categories[0]._id,
+        name:"Aloo Anardana",
+        description:"Potatoes cooked with pomegranate spices.",
+        price:150,
+        isVeg:true,
+        image:{url:"/images/foods/jammu-zaika/aloo-anardana.jpg",public_id:""}
+        },
+        {
+        category:categories[0]._id,
+        name:"Paneer Dogri",
+        description:"Traditional paneer curry.",
+        price:240,
+        isVeg:true,
+        image:{url:"/images/foods/jammu-zaika/paneer-dogri.jpg",public_id:""}
+        }
+        ]
     },
   
     {
@@ -155,22 +226,50 @@ const run = async () => {
         deliveryFee: 40,
         avgDeliveryTime: 40,
       },
-      foods: [
+      foods:[
         {
-          category: categories[1]._id,
-          name: "Rogan Josh",
-          description: "Traditional Kashmiri mutton.",
-          price: 420,
-          isVeg: false,
+        category:categories[1]._id,
+        name:"Rogan Josh",
+        price:420,
+        isVeg:false,
+        image:{url:"/images/foods/wazwan-house/rogan-josh.jpg",public_id:""}
         },
         {
-          category: categories[1]._id,
-          name: "Gushtaba",
-          description: "Royal Wazwan meatballs.",
-          price: 450,
-          isVeg: false,
+        category:categories[1]._id,
+        name:"Gushtaba",
+        price:450,
+        isVeg:false,
+        image:{url:"/images/foods/wazwan-house/gushtaba.jpg",public_id:""}
         },
-      ],
+        {
+        category:categories[1]._id,
+        name:"Rista",
+        price:430,
+        isVeg:false,
+        image:{url:"/images/foods/wazwan-house/rista.jpg",public_id:""}
+        },
+        {
+        category:categories[1]._id,
+        name:"Yakhni",
+        price:390,
+        isVeg:false,
+        image:{url:"/images/foods/wazwan-house/yakhni.jpg",public_id:""}
+        },
+        {
+        category:categories[1]._id,
+        name:"Tabak Maaz",
+        price:460,
+        isVeg:false,
+        image:{url:"/images/foods/wazwan-house/tabak-maaz.jpg",public_id:""}
+        },
+        {
+        category:categories[1]._id,
+        name:"Dum Aloo Kashmiri",
+        price:220,
+        isVeg:true,
+        image:{url:"/images/foods/wazwan-house/dum-aloo.jpg",public_id:""}
+        }
+        ]
     },
   
     {
@@ -204,15 +303,69 @@ const run = async () => {
         {
           category: categories[2]._id,
           name: "Paneer Butter Masala",
+          description: "Soft paneer cubes cooked in rich buttery tomato gravy.",
           price: 260,
           isVeg: true,
+          image: {
+            url: "/images/foods/punjab-tadka/paneer-butter-masala.jpg",
+            public_id: ""
+          }
+        },
+        {
+          category: categories[2]._id,
+          name: "Dal Makhani",
+          description: "Slow-cooked black lentils finished with cream and butter.",
+          price: 220,
+          isVeg: true,
+          image: {
+            url: "/images/foods/punjab-tadka/dal-makhani.jpg",
+            public_id: ""
+          }
+        },
+        {
+          category: categories[2]._id,
+          name: "Shahi Paneer",
+          description: "Paneer cooked in a rich creamy cashew gravy.",
+          price: 270,
+          isVeg: true,
+          image: {
+            url: "/images/foods/punjab-tadka/shahi-paneer.jpg",
+            public_id: ""
+          }
+        },
+        {
+          category: categories[2]._id,
+          name: "Chole Bhature",
+          description: "Spicy Punjabi chole served with fluffy bhature.",
+          price: 190,
+          isVeg: true,
+          image: {
+            url: "/images/foods/punjab-tadka/chole-bhature.jpg",
+            public_id: ""
+          }
         },
         {
           category: categories[2]._id,
           name: "Butter Naan",
-          price: 50,
+          description: "Fresh tandoor naan brushed with butter.",
+          price: 45,
           isVeg: true,
+          image: {
+            url: "/images/foods/punjab-tadka/butter-naan.jpg",
+            public_id: ""
+          }
         },
+        {
+          category: categories[2]._id,
+          name: "Jeera Rice",
+          description: "Basmati rice tempered with cumin seeds.",
+          price: 150,
+          isVeg: true,
+          image: {
+            url: "/images/foods/punjab-tadka/jeera-rice.jpg",
+            public_id: ""
+          }
+        }
       ],
     },
   
@@ -247,15 +400,69 @@ const run = async () => {
         {
           category: categories[3]._id,
           name: "Chole Kulche",
-          price: 120,
+          description: "Soft kulchas served with spicy Punjabi chole.",
+          price: 140,
           isVeg: true,
+          image: {
+            url: "/images/foods/kulcha-junction/chole-kulche.jpg",
+            public_id: ""
+          }
         },
         {
           category: categories[3]._id,
           name: "Gol Gappe",
-          price: 60,
+          description: "Crispy gol gappe with tangy mint water.",
+          price: 80,
           isVeg: true,
+          image: {
+            url: "/images/foods/kulcha-junction/gol-gappe.jpg",
+            public_id: ""
+          }
         },
+        {
+          category: categories[3]._id,
+          name: "Aloo Tikki",
+          description: "Crispy potato patties with chutneys.",
+          price: 90,
+          isVeg: true,
+          image: {
+            url: "/images/foods/kulcha-junction/aloo-tikki.jpg",
+            public_id: ""
+          }
+        },
+        {
+          category: categories[3]._id,
+          name: "Papdi Chaat",
+          description: "Crunchy papdi topped with yogurt.",
+          price: 110,
+          isVeg: true,
+          image: {
+            url: "/images/foods/kulcha-junction/papdi-chaat.jpg",
+            public_id: ""
+          }
+        },
+        {
+          category: categories[3]._id,
+          name: "Dahi Bhalla",
+          description: "Soft lentil dumplings with yogurt.",
+          price: 120,
+          isVeg: true,
+          image: {
+            url: "/images/foods/kulcha-junction/dahi-bhalla.jpg",
+            public_id: ""
+          }
+        },
+        {
+          category: categories[3]._id,
+          name: "Samosa Chaat",
+          description: "Samosa served with chole and chutneys.",
+          price: 130,
+          isVeg: true,
+          image: {
+            url: "/images/foods/kulcha-junction/samosa-chaat.jpg",
+            public_id: ""
+          }
+        }
       ],
     },
   
@@ -290,15 +497,51 @@ const run = async () => {
         {
           category: categories[2]._id,
           name: "Hakka Noodles",
-          price: 190,
+          description: "Classic Indo-Chinese stir-fried noodles.",
+          price: 180,
           isVeg: true,
+          image: { url: "/images/foods/spice-route/hakka-noodles.jpg", public_id: "" }
         },
         {
           category: categories[2]._id,
           name: "Chicken Manchurian",
-          price: 280,
+          description: "Juicy chicken tossed in spicy Manchurian sauce.",
+          price: 260,
           isVeg: false,
+          image: { url: "/images/foods/spice-route/chicken-manchurian.jpg", public_id: "" }
         },
+        {
+          category: categories[2]._id,
+          name: "Veg Fried Rice",
+          description: "Stir-fried rice with fresh vegetables.",
+          price: 170,
+          isVeg: true,
+          image: { url: "/images/foods/spice-route/veg-fried-rice.jpg", public_id: "" }
+        },
+        {
+          category: categories[2]._id,
+          name: "Chilli Paneer",
+          description: "Paneer cubes tossed in spicy chilli sauce.",
+          price: 220,
+          isVeg: true,
+          image: { url: "/images/foods/spice-route/chilli-paneer.jpg", public_id: "" }
+        },
+        {
+          category: categories[2]._id,
+          name: "Spring Rolls",
+          description: "Crispy vegetable spring rolls.",
+          price: 160,
+          isVeg: true,
+          image: { url: "/images/foods/spice-route/spring-rolls.jpg", public_id: "" }
+        },
+        {
+          category: categories[2]._id,
+          name: "Schezwan Rice",
+          description: "Spicy Schezwan fried rice.",
+          price: 190,
+          isVeg: true,
+          image: { url: "/images/foods/spice-route/schezwan-rice.jpg", public_id: "" }
+        }
       ],
     },
   
@@ -333,15 +576,51 @@ const run = async () => {
         {
           category: categories[4]._id,
           name: "Gulab Jamun",
+          description: "Soft milk dumplings soaked in sugar syrup.",
           price: 90,
           isVeg: true,
+          image: { url: "/images/foods/sweet-cravings/gulab-jamun.jpg", public_id: "" }
         },
         {
           category: categories[4]._id,
           name: "Chocolate Cake",
+          description: "Rich chocolate sponge with creamy frosting.",
           price: 180,
           isVeg: true,
+          image: { url: "/images/foods/sweet-cravings/chocolate-cake.jpg", public_id: "" }
         },
+        {
+          category: categories[4]._id,
+          name: "Brownie",
+          description: "Warm chocolate brownie served fresh.",
+          price: 140,
+          isVeg: true,
+          image: { url: "/images/foods/sweet-cravings/brownie.jpg", public_id: "" }
+        },
+        {
+          category: categories[4]._id,
+          name: "Rasmalai",
+          description: "Soft cottage cheese dumplings in sweet milk.",
+          price: 130,
+          isVeg: true,
+          image: { url: "/images/foods/sweet-cravings/rasmalai.jpg", public_id: "" }
+        },
+        {
+          category: categories[4]._id,
+          name: "Ice Cream Sundae",
+          description: "Vanilla ice cream topped with chocolate syrup.",
+          price: 160,
+          isVeg: true,
+          image: { url: "/images/foods/sweet-cravings/ice-cream-sundae.jpg", public_id: "" }
+        },
+        {
+          category: categories[4]._id,
+          name: "Red Velvet Pastry",
+          description: "Soft red velvet pastry with cream cheese frosting.",
+          price: 170,
+          isVeg: true,
+          image: { url: "/images/foods/sweet-cravings/red-velvet-pastry.jpg", public_id: "" }
+        }
       ],
     },
   
@@ -376,15 +655,91 @@ const run = async () => {
         {
           category: categories[5]._id,
           name: "Cold Coffee",
+          description: "Creamy chilled coffee topped with whipped cream.",
           price: 150,
           isVeg: true,
+          image: {
+            url: "/images/foods/chai-and-chill/cold-coffee.jpg",
+            public_id: ""
+          }
         },
         {
           category: categories[5]._id,
           name: "Oreo Shake",
+          description: "Rich Oreo milkshake with chocolate syrup.",
           price: 180,
           isVeg: true,
+          image: {
+            url: "/images/foods/chai-and-chill/oreo-shake.jpg",
+            public_id: ""
+          }
         },
+        {
+          category: categories[5]._id,
+          name: "Masala Chai",
+          description: "Traditional Indian tea with aromatic spices.",
+          price: 60,
+          isVeg: true,
+          image: {
+            url: "/images/foods/chai-and-chill/masala-chai.jpg",
+            public_id: ""
+          }
+        },
+        {
+          category: categories[5]._id,
+          name: "Green Tea",
+          description: "Healthy green tea served hot.",
+          price: 80,
+          isVeg: true,
+          image: {
+            url: "/images/foods/chai-and-chill/green-tea.jpg",
+            public_id: ""
+          }
+        },
+        {
+          category: categories[5]._id,
+          name: "Virgin Mojito",
+          description: "Refreshing mint and lime cooler.",
+          price: 140,
+          isVeg: true,
+          image: {
+            url: "/images/foods/chai-and-chill/mojito.jpg",
+            public_id: ""
+          }
+        },
+        {
+          category: categories[5]._id,
+          name: "Hot Chocolate",
+          description: "Rich chocolate drink topped with marshmallows.",
+          price: 160,
+          isVeg: true,
+          image: {
+            url: "/images/foods/chai-and-chill/hot-chocolate.jpg",
+            public_id: ""
+          }
+        },
+        {
+          category: categories[5]._id,
+          name: "Veg Sandwich",
+          description: "Grilled sandwich with fresh vegetables.",
+          price: 130,
+          isVeg: true,
+          image: {
+            url: "/images/foods/chai-and-chill/veg-sandwich.jpg",
+            public_id: ""
+          }
+        },
+        {
+          category: categories[5]._id,
+          name: "French Fries",
+          description: "Crispy golden fries served with ketchup.",
+          price: 110,
+          isVeg: true,
+          image: {
+            url: "/images/foods/chai-and-chill/french-fries.jpg",
+            public_id: ""
+          }
+        }
       ],
     },
   ];
@@ -416,17 +771,22 @@ if (!restaurant) {
   await restaurant.save();
 }
   
-    const count = await Food.countDocuments({ restaurant: restaurant._id });
-  
-    if (count === 0) {
-      await Food.insertMany(
-        data.foods.map((food) => ({
-          ...food,
-          restaurant: restaurant._id,
-        }))
-      );
+await Food.deleteMany({ restaurant: restaurant._id });
+
+const insertedFoods = await Food.insertMany(
+  data.foods.map((food) => ({
+    ...food,
+    restaurant: restaurant._id,
+  }))
+);
+
+console.log(
+  restaurant.name,
+  "Inserted",
+  insertedFoods.length,
+  "foods"
+);
     }
-  }
 
   const couponCount = await Coupon.countDocuments();
   if (couponCount === 0) {
@@ -454,8 +814,8 @@ if (!restaurant) {
   }
 
   console.log('Seeding complete!');
-  console.log('Admin login -> email: admin@jammuekhaas.com | password: Admin@123');
-  console.log('Restaurant owner login -> email: owner@jammuekhaas.com | password: Owner@123');
+  // console.log('Admin login -> email: admin@jammuekhaas.com | password: Admin@123');
+  // console.log('Restaurant owner login -> email: owner@jammuekhaas.com | password: Owner@123');
   process.exit(0);
 };
 
