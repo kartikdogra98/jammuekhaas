@@ -37,57 +37,57 @@ const Home = () => {
   }}
 >
   {/* Dark Overlay */}
-  <div className="absolute inset-0 bg-black/60"></div>
-
   <div className="container-app pt-20 pb-32 md:pt-24 md:pb-40 relative z-10 -translate-y-6">
+
+  <div className="max-w-2xl">
+
     <motion.h1
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="font-display text-4xl md:text-6xl font-extrabold max-w-2xl leading-tight"
+      className="font-display text-4xl md:text-6xl font-extrabold leading-tight"
     >
-      Authentic Dogra Flavours,{" "}
-      <span className="text-dogra-gold">Delivered Hot</span>
+      Authentic Dogra Flavours,
+      <span className="text-dogra-gold"> Delivered Hot</span>
     </motion.h1>
 
     <motion.p
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 }}
-      className="mt-4 text-lg text-white/90 max-w-xl"
+      className="mt-4 text-lg text-white/90"
     >
-      Order from Jammu's finest restaurants — from Rajma Rice to Kaladi Kulcha
-      — straight to your door.
+      Order from Jammu's finest restaurants — from Rajma Rice to Kaladi Kulcha — straight to your door.
     </motion.p>
 
     <motion.form
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ delay: 0.2 }}
-  onSubmit={(e) => {
-    e.preventDefault();
-    window.location.href = `/restaurants?search=${encodeURIComponent(search)}`;
-  }}
-  className="mt-8 flex w-full max-w-xl mx-auto bg-white/95 backdrop-blur rounded-xl shadow-2xl overflow-hidden"
->
-  <input
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-    placeholder="Search restaurants or dishes..."
-    className="flex-1 h-12 px-4 text-dogra-slate focus:outline-none text-sm md:text-base"
-  />
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2 }}
+      onSubmit={(e) => {
+        e.preventDefault();
+        window.location.href = `/restaurants?search=${encodeURIComponent(search)}`;
+      }}
+      className="mt-8 flex w-full max-w-xl bg-white/95 backdrop-blur rounded-xl shadow-2xl overflow-hidden"
+    >
+      <input
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search restaurants or dishes..."
+        className="flex-1 h-12 px-4 text-dogra-slate focus:outline-none text-sm md:text-base"
+      />
 
-  <button
-    type="submit"
-    className="bg-dogra-gold text-dogra-slate w-12 h-12 md:w-auto md:px-6 flex items-center justify-center font-semibold hover:bg-yellow-400 transition"
-  >
-    <FiSearch className="text-xl" />
+      <button
+        type="submit"
+        className="bg-dogra-gold text-dogra-slate w-12 h-12 md:w-auto md:px-6 flex items-center justify-center font-semibold hover:bg-yellow-400 transition"
+      >
+        <FiSearch className="text-xl" />
+        <span className="hidden md:inline ml-2">Search</span>
+      </button>
+    </motion.form>
 
-    <span className="hidden md:inline ml-2">
-      Search
-    </span>
-  </button>
-</motion.form>
   </div>
+
+</div>
 </section>
 
       {/* Categories */}
