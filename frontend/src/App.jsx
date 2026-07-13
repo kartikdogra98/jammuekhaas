@@ -18,7 +18,7 @@ import ResetPassword from './pages/ResetPassword';
 import VerifyEmail from './pages/VerifyEmail';
 import Profile from './pages/Profile';
 import Addresses from './pages/Addresses';
-import Orders from './pages/Orders';
+import CustomerOrders from './pages/Orders';
 import OrderDetail from './pages/OrderDetail';
 import Wishlist from './pages/Wishlist';
 import Notifications from './pages/Notifications';
@@ -31,6 +31,19 @@ import FAQ from './pages/FAQ';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
 import NotFound from './pages/NotFound';
+
+// Admin V2
+import AdminLayout from "./components/admin-v2/AdminLayout";
+
+import Dashboard from "./pages/admin-v2/Dashboard";
+import Restaurants from "./pages/admin-v2/Restaurants";
+import Foods from "./pages/admin-v2/Foods";
+import AdminOrders from "./pages/admin-v2/Orders";
+import Users from "./pages/admin-v2/Users";
+import Categories from "./pages/admin-v2/Categories";
+import Coupons from "./pages/admin-v2/Coupons";
+import Reports from "./pages/admin-v2/Reports";
+import Settings from "./pages/admin-v2/Settings";
 
 function App() {
   const dispatch = useDispatch();
@@ -66,21 +79,74 @@ function App() {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<Terms />} />
-
-        <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
-        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-        <Route path="/addresses" element={<ProtectedRoute><Addresses /></ProtectedRoute>} />
-        <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
-        <Route path="/orders/:id" element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
-        <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
-        <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
-
-        <Route path="/admin" element={<ProtectedRoute roles={['admin']}><AdminDashboard /></ProtectedRoute>} />
-        <Route path="/restaurant-dashboard" element={<ProtectedRoute roles={['restaurant', 'admin']}><RestaurantDashboard /></ProtectedRoute>} />
-        <Route path="/delivery-dashboard" element={<ProtectedRoute roles={['delivery', 'admin']}><DeliveryDashboard /></ProtectedRoute>} />
-
+  
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedRoute>
+              <Checkout />
+            </ProtectedRoute>
+          }
+        />
+  
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+  
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoute>
+              <CustomerOrders />
+            </ProtectedRoute>
+          }
+        />
+  
+  <Route
+  path="/admin/*"
+  element={
+    <ProtectedRoute roles={["admin"]}>
+      <AdminLayout />
+    </ProtectedRoute>
+  }
+>
+  <Route index element={<Dashboard />} />
+  <Route path="restaurants" element={<Restaurants />} />
+  <Route path="foods" element={<Foods />} />
+  <Route path="orders" element={<AdminOrders />} />
+  <Route path="users" element={<Users />} />
+  <Route path="categories" element={<Categories />} />
+  <Route path="coupons" element={<Coupons />} />
+  <Route path="reports" element={<Reports />} />
+  <Route path="settings" element={<Settings />} />
+</Route>
+  
+        <Route
+          path="/restaurant-dashboard"
+          element={
+            <ProtectedRoute roles={["restaurant", "admin"]}>
+              <RestaurantDashboard />
+            </ProtectedRoute>
+          }
+        />
+  
+        <Route
+          path="/delivery-dashboard"
+          element={
+            <ProtectedRoute roles={["delivery", "admin"]}>
+              <DeliveryDashboard />
+            </ProtectedRoute>
+          }
+        />
+  
         <Route path="*" element={<NotFound />} />
       </Routes>
+      
     </Layout>
   );
 }

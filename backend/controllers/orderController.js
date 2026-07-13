@@ -106,7 +106,10 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @desc Get single order
 // @route GET /api/orders/:id
 const getOrderById = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id).populate('restaurant', 'name image phone').populate('user', 'name email phone');
+  const order = await Order.findById(req.params.id).populate({
+    path: "restaurant",
+    select: "owner name",
+  });
   if (!order) throw new ApiError(404, 'Order not found');
 
   const isOwner = order.user._id.toString() === req.user._id.toString();
@@ -135,41 +138,86 @@ const getRestaurantOrders = asyncHandler(async (req, res) => {
 // @route PATCH /api/orders/:id/status
 const updateOrderStatus = asyncHandler(async (req, res) => {
   const { status } = req.body;
-  const validStatuses = ['placed', 'confirmed', 'preparing', 'out_for_delivery', 'delivered', 'cancelled'];
-  if (!validStatuses.includes(status)) throw new ApiError(400, 'Invalid order status');
 
-  const order = await Order.findById(req.params.id).populate('restaurant');
-  if (!order) throw new ApiError(404, 'Order not found');
+  const validStatuses = [
+    "placed",
+    "confirmed",
+    "preparing",
+    "out_for_delivery",
+    "delivered",
+    "cancelled",
+  ];
 
-  const isRestaurantOwner = order.restaurant.owner.toString() === req.user._id.toString();
-  const isAdmin = req.user.role === 'admin';
-  const isDelivery = req.user.role === 'delivery';
-  if (!isRestaurantOwner && !isAdmin && !isDelivery) throw new ApiError(403, 'Not authorized');
+  if (!validStatuses.includes(status)) {
+    throw new ApiError(400, "Invalid order status");
+  }
+
+  const order = await Order.findById(req.params.id)
+.populate("restaurant");
+
+  if (!order) {
+    throw new ApiError(404, "Order not found");
+  }
+
+  if (!order.restaurant) {
+    throw new ApiError(404, "Restaurant not found");
+  }
+
+  const isAdmin = req.user.role === "admin";
+  const isDelivery = req.user.role === "delivery";
+
+  const isRestaurantOwner =
+  order.restaurant &&
+  order.restaurant.owner &&
+  order.restaurant.owner.equals(req.user._id);
+  if (!isAdmin && !isDelivery && !isRestaurantOwner) {
+    throw new ApiError(403, "Not authorized");
+  }
 
   order.status = status;
-  order.statusHistory.push({ status, at: new Date() });
-  if (status === 'delivered') {
+
+  order.statusHistory.push({
+    status,
+    at: new Date(),
+  });
+
+  if (status === "delivered") {
     order.deliveredAt = new Date();
-    if (order.paymentMethod === 'cod') order.paymentStatus = 'paid';
+
+    if (order.paymentMethod === "cod") {
+      order.paymentStatus = "paid";
+    }
   }
+
   await order.save();
 
   await Notification.create({
     user: order.user,
-    title: 'Order Update',
-    message: `Your order #${order.orderNumber} is now ${status.replace('_', ' ')}.`,
-    type: 'order',
+    title: "Order Update",
+    message: `Your order #${order.orderNumber} is now ${status.replace(
+      /_/g,
+      " "
+    )}.`,
+    type: "order",
     link: `/orders/${order._id}`,
   });
 
-  res.status(200).json({ success: true, order });
+  res.status(200).json({
+    success: true,
+    order,
+  });
 });
-
 // @desc Cancel order (customer)
 // @route PATCH /api/orders/:id/cancel
 const cancelOrder = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
-  if (!order) throw new ApiError(404, 'Order not found');
+  if (!order.restaurant) {
+
+    console.log("Restaurant Missing");
+    console.log(order);
+
+    throw new ApiError(404, "Restaurant not found");
+}
   if (order.user.toString() !== req.user._id.toString()) throw new ApiError(403, 'Not authorized');
   if (['out_for_delivery', 'delivered'].includes(order.status)) {
     throw new ApiError(400, 'Order cannot be cancelled at this stage');

@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "mongoose": "^9.7.4"
+    "mongoose": "^9.7.4",
+    "react-hook-form": "^7.81.0",
+    "recharts": "^3.9.2",
+    "sweetalert2": "^11.26.25"
   }
 }
