@@ -22,7 +22,6 @@ import CustomerOrders from './pages/Orders';
 import OrderDetail from './pages/OrderDetail';
 import Wishlist from './pages/Wishlist';
 import Notifications from './pages/Notifications';
-import AdminDashboard from './pages/AdminDashboard';
 import RestaurantDashboard from './pages/RestaurantDashboard';
 import DeliveryDashboard from './pages/DeliveryDashboard';
 import About from './pages/About';
