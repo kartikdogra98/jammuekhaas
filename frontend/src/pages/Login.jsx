@@ -20,9 +20,32 @@ const Login = () => {
 
   const onSubmit = async (values) => {
     const result = await dispatch(loginUser(values));
-    if (result.meta.requestStatus === 'fulfilled') {
-      toast.success('Welcome back!');
-      navigate(location.state?.from?.pathname || '/');
+    if (result.meta.requestStatus === "fulfilled") {
+      toast.success("Welcome back!");
+    
+      const user = result.payload.user;
+    
+      if (location.state?.from?.pathname) {
+        navigate(location.state.from.pathname);
+        return;
+      }
+    
+      switch (user.role) {
+        case "admin":
+          navigate("/admin");
+          break;
+    
+        case "restaurant":
+          navigate("/restaurant-dashboard");
+          break;
+    
+        case "delivery":
+          navigate("/delivery-dashboard");
+          break;
+    
+        default:
+          navigate("/");
+      }
     } else {
       toast.error(result.payload || 'Login failed');
     }

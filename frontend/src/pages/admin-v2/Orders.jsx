@@ -83,13 +83,13 @@ const Orders = () => {
   };
 
   return (
-    <div>
+    <div className="text-slate-900 dark:text-white">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">
+        <h1 className="text-2xl sm:text-3xl font-bold">
           Orders Management
         </h1>
 
-        <p className="text-gray-500">
+        <p className="text-gray-500 dark:text-gray-300">
           Track all customer orders
         </p>
       </div>
@@ -97,37 +97,37 @@ const Orders = () => {
 
 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-8">
 
-<div className="bg-white rounded-2xl shadow p-5">
-  <p className="text-gray-500 text-sm">Total Orders</p>
-  <h2 className="text-3xl font-bold mt-2">
+<div className="bg-white dark:bg-slate-800 rounded-2xl shadow p-5 border border-transparent dark:border-slate-700">
+<p className="text-gray-500 dark:text-gray-300 text-sm">Total Orders</p>
+<h2 className="text-2xl sm:text-3xl font-bold mt-2 text-slate-900 dark:text-white">
     {stats.totalOrders}
   </h2>
 </div>
 
-<div className="bg-yellow-50 rounded-2xl shadow p-5">
+<div className="bg-yellow-50 dark:bg-slate-800 rounded-2xl shadow p-5 border border-transparent dark:border-slate-700">
   <p className="text-yellow-700 text-sm">Pending Orders</p>
-  <h2 className="text-3xl font-bold mt-2 text-yellow-600">
+  <h2 className="text-2xl sm:text-3xl font-bold mt-2 text-yellow-600">
     {stats.pendingOrders}
   </h2>
 </div>
 
-<div className="bg-green-50 rounded-2xl shadow p-5">
+<div className="bg-green-50 dark:bg-slate-800 rounded-2xl shadow p-5 border border-transparent dark:border-slate-700">
   <p className="text-green-700 text-sm">Delivered</p>
-  <h2 className="text-3xl font-bold mt-2 text-green-600">
+  <h2 className="text-2xl sm:text-3xl font-bold mt-2 text-green-600">
     {stats.deliveredOrders}
   </h2>
 </div>
 
-<div className="bg-red-50 rounded-2xl shadow p-5">
+<div className="bg-red-50 dark:bg-slate-800 rounded-2xl shadow p-5 border border-transparent dark:border-slate-700">
   <p className="text-red-700 text-sm">Cancelled</p>
-  <h2 className="text-3xl font-bold mt-2 text-red-600">
+  <h2 className="text-2xl sm:text-3xl font-bold mt-2 text-red-600">
     {stats.cancelledOrders}
   </h2>
 </div>
 
-<div className="bg-blue-50 rounded-2xl shadow p-5">
+<div className="bg-blue-50 dark:bg-slate-800 rounded-2xl shadow p-5 border border-transparent dark:border-slate-700">
   <p className="text-blue-700 text-sm">Revenue</p>
-  <h2 className="text-3xl font-bold mt-2 text-blue-600">
+  <h2 className="text-2xl sm:text-3xl font-bold mt-2 text-blue-600">
     ₹{stats.revenue.toLocaleString()}
   </h2>
 </div>
@@ -139,11 +139,11 @@ const Orders = () => {
           Loading Orders...
         </p>
       ) : (
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden border border-transparent dark:border-slate-700">
 
           {/* Search & Filter */}
 
-          <div className="p-6 border-b flex gap-4 flex-wrap">
+          <div className="p-6 border-b border-gray-200 dark:border-slate-700 flex flex-col md:flex-row gap-4">
 
             <input
               type="text"
@@ -153,7 +153,7 @@ const Orders = () => {
                 setPage(1);
                 setSearch(e.target.value);
               }}
-              className="border rounded-lg px-4 py-3 w-80"
+              className="w-full md:w-80 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 rounded-lg px-4 py-3"
             />
 
             <select
@@ -162,7 +162,7 @@ const Orders = () => {
                 setPage(1);
                 setStatusFilter(e.target.value);
               }}
-              className="border rounded-lg px-4 py-3"
+             className="w-full md:w-56 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 rounded-lg px-4 py-3"
             >
               <option value="">All Status</option>
               <option value="placed">Placed</option>
@@ -183,9 +183,9 @@ const Orders = () => {
 
           <div className="overflow-x-auto">
 
-            <table className="w-full">
+          <table className="min-w-[750px] w-full">
 
-              <thead className="bg-slate-100">
+            <thead className="bg-slate-100 dark:bg-slate-700">
 
                 <tr>
                   <th className="p-4">Order ID</th>
@@ -208,7 +208,7 @@ const Orders = () => {
 
                     <td
                       colSpan="8"
-                      className="text-center py-10 text-gray-500"
+                      className="text-center py-10 text-gray-500 dark:text-gray-300"
                     >
                       No Orders Found
                     </td>
@@ -221,7 +221,7 @@ const Orders = () => {
 
                     <tr
                       key={order._id}
-                      className="border-b hover:bg-gray-50"
+                      className="w-full md:w-56 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 rounded-lg px-4 py-3"
                     >
                       <td className="p-4">
                         {order.orderNumber || order._id.slice(-6)}
@@ -245,7 +245,7 @@ const Orders = () => {
                               e.target.value
                             )
                           }
-                          className="border rounded-lg px-3 py-2"
+                         className="w-full md:w-56 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 rounded-lg px-4 py-3"
                         >
                           <option value="placed">
                             Placed
@@ -308,24 +308,24 @@ const Orders = () => {
 
           {/* Pagination */}
 
-          <div className="flex justify-center items-center gap-4 py-5 border-t">
+          <div className="flex justify-center items-center gap-4 py-5 border-t border-gray-200 dark:border-slate-700">
 
             <button
               disabled={page === 1}
               onClick={() => setPage(page - 1)}
-              className="px-4 py-2 rounded-lg bg-gray-200 disabled:opacity-50"
+              className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-slate-700 dark:text-white disabled:opacity-50"
             >
               Previous
             </button>
 
-            <span>
+            <span className="text-slate-700 dark:text-gray-200">
               Page {page} of {pages}
             </span>
 
             <button
               disabled={page === pages}
               onClick={() => setPage(page + 1)}
-              className="px-4 py-2 rounded-lg bg-gray-200 disabled:opacity-50"
+              className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-slate-700 dark:text-white disabled:opacity-50"
             >
               Next
             </button>

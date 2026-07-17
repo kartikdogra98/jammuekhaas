@@ -31,6 +31,9 @@ const DeliveryPartners = () => {
       title: "Delete Delivery Partner?",
       icon: "warning",
       showCancelButton: true,
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Delete",
     });
 
     if (!result.isConfirmed) return;
@@ -45,17 +48,17 @@ const DeliveryPartners = () => {
   };
 
   return (
-    <div>
+    <div className="text-slate-900 dark:text-white">
 
-      <div className="flex justify-between mb-8">
+<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-8">
 
         <div>
 
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-2xl sm:text-3xl font-bold">
             Delivery Partners
           </h1>
 
-          <p className="text-gray-500">
+          <p className="text-gray-500 dark:text-gray-300">
             Manage Delivery Executives
           </p>
 
@@ -63,7 +66,7 @@ const DeliveryPartners = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="bg-dogra-maroon text-white px-6 py-3 rounded-xl flex gap-2 items-center"
+          className="bg-dogra-maroon hover:bg-dogra-maroon/90 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl flex items-center gap-2 transition"
         >
           <FiPlus />
           Add Partner
@@ -72,87 +75,125 @@ const DeliveryPartners = () => {
       </div>
 
       {loading ? (
-        <p>Loading...</p>
+
+        <p className="text-center py-10 text-gray-500 dark:text-gray-300">
+          Loading Delivery Partners...
+        </p>
+
       ) : (
 
-        <div className="bg-white rounded-xl shadow overflow-hidden">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden border border-transparent dark:border-slate-700">
 
-          <table className="w-full">
+          <div className="overflow-x-auto">
 
-            <thead className="bg-slate-100">
+          <table className="min-w-[700px] w-full">
 
-              <tr>
+              <thead className="bg-slate-100 dark:bg-slate-700">
 
-                <th className="p-4">Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Status</th>
-                <th>Rating</th>
-                <th>Actions</th>
+                <tr>
 
-              </tr>
-
-            </thead>
-
-            <tbody>
-
-              {partners.map((partner) => (
-
-                <tr key={partner._id} className="border-b">
-
-                  <td>{partner.name}</td>
-
-                  <td>{partner.email}</td>
-
-                  <td>{partner.phone}</td>
-
-                  <td>
-
-                    {partner.isAvailable ? (
-                      <span className="text-green-600">
-                        Online
-                      </span>
-                    ) : (
-                      <span className="text-red-600">
-                        Offline
-                      </span>
-                    )}
-
-                  </td>
-
-                  <td>
-
-                    ⭐ {partner.rating || 0}
-
-                  </td>
-
-                  <td>
-
-                    <div className="flex justify-center gap-3">
-
-                      <button
-                        onClick={() => setEditingPartner(partner)}
-                      >
-                        <FiEdit />
-                      </button>
-
-                      <button
-                        onClick={() => deletePartner(partner._id)}
-                      >
-                        <FiTrash2 />
-                      </button>
-
-                    </div>
-
-                  </td>
+                  <th className="p-4 text-left">Name</th>
+                  <th className="text-left">Email</th>
+                  <th className="text-left">Phone</th>
+                  <th>Status</th>
+                  <th>Rating</th>
+                  <th>Actions</th>
 
                 </tr>
 
-              ))}
+              </thead>
 
-            </tbody>
+              <tbody>
 
-          </table>
+                {partners.length === 0 ? (
+
+                  <tr>
+
+                    <td
+                      colSpan="6"
+                      className="text-center py-10 text-gray-500 dark:text-gray-300"
+                    >
+                      No Delivery Partners Found
+                    </td>
+
+                  </tr>
+
+                ) : (
+
+                  partners.map((partner) => (
+
+                    <tr
+                      key={partner._id}
+                      className="border-b border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition"
+                    >
+
+                      <td className="p-4 font-medium">
+                        {partner.name}
+                      </td>
+
+                      <td className="text-gray-700 dark:text-gray-200">
+                        {partner.email}
+                      </td>
+
+                      <td className="text-gray-700 dark:text-gray-200">
+                        {partner.phone}
+                      </td>
+
+                      <td>
+
+                        {partner.isAvailable ? (
+
+                          <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm">
+                            Online
+                          </span>
+
+                        ) : (
+
+                          <span className="px-3 py-1 rounded-full bg-red-100 text-red-700 text-sm">
+                            Offline
+                          </span>
+
+                        )}
+
+                      </td>
+
+                      <td className="font-semibold">
+                        ⭐ {partner.rating || 0}
+                      </td>
+
+                      <td>
+
+                        <div className="flex justify-center gap-3">
+
+                          <button
+                            onClick={() => setEditingPartner(partner)}
+                            className="p-2 rounded-lg bg-yellow-100 text-yellow-600 hover:bg-yellow-200 transition"
+                          >
+                            <FiEdit />
+                          </button>
+
+                          <button
+                            onClick={() => deletePartner(partner._id)}
+                            className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition"
+                          >
+                            <FiTrash2 />
+                          </button>
+
+                        </div>
+
+                      </td>
+
+                    </tr>
+
+                  ))
+
+                )}
+
+              </tbody>
+
+            </table>
+
+          </div>
 
         </div>
 

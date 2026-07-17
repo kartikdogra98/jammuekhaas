@@ -8,15 +8,11 @@ import FoodModal from "../../components/admin-v2/modals/FoodModal";
 const Foods = () => {
   const [foods, setFoods] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   const [showModal, setShowModal] = useState(false);
-
   const [search, setSearch] = useState("");
-
   const [selectedRestaurant, setSelectedRestaurant] = useState("");
-
   const [editingFood, setEditingFood] = useState(null);
 
   useEffect(() => {
@@ -76,44 +72,55 @@ const Foods = () => {
       fetchFoods();
     } catch (err) {
       console.log(err);
-
       toast.error("Failed to delete food");
     }
   };
 
   return (
-    <div>
-      {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold">Food Management</h1>
+    <div className="text-slate-900 dark:text-white">
 
-          <p className="text-gray-500">Manage all dishes</p>
+      {/* Header */}
+
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-8">
+
+        <div>
+
+          <h1 className="text-2xl sm:text-3xl font-bold">
+            Food Management
+          </h1>
+
+          <p className="text-gray-500 dark:text-gray-300">
+            Manage all dishes
+          </p>
+
         </div>
 
         <button
           onClick={() => setShowModal(true)}
-          className="bg-dogra-maroon text-white px-6 py-3 rounded-xl flex items-center gap-2"
+          className="bg-dogra-maroon hover:bg-dogra-maroon/90 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl flex items-center gap-2 transition"
         >
           <FiPlus />
           Add Food
         </button>
+
       </div>
 
       {/* Filters */}
-      <div className="flex gap-4 mb-6">
+
+      <div className="flex gap-4 mb-6 flex-wrap">
+
         <input
           type="text"
           placeholder="Search foods..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 border rounded-xl px-4 py-3"
+          className="flex-1 border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl px-4 py-3 placeholder:text-gray-400"
         />
 
         <select
           value={selectedRestaurant}
           onChange={(e) => setSelectedRestaurant(e.target.value)}
-          className="border rounded-xl px-4 py-3"
+          className="border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl px-4 py-3"
         >
           <option value="">All Restaurants</option>
 
@@ -122,19 +129,31 @@ const Foods = () => {
               {restaurant.name}
             </option>
           ))}
+
         </select>
+
       </div>
 
       {/* Table */}
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
 
-              <thead className="bg-slate-100">
+      {loading ? (
+
+        <p className="text-center py-10 text-gray-500 dark:text-gray-300">
+          Loading Foods...
+        </p>
+
+      ) : (
+
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden border border-transparent dark:border-slate-700">
+
+          <div className="overflow-x-auto">
+
+          <table className="min-w-[750px] w-full">
+
+              <thead className="bg-slate-100 dark:bg-slate-700">
+
                 <tr>
+
                   <th className="p-4">Image</th>
                   <th>Name</th>
                   <th>Restaurant</th>
@@ -143,86 +162,142 @@ const Foods = () => {
                   <th>Veg</th>
                   <th>Availability</th>
                   <th>Actions</th>
+
                 </tr>
+
               </thead>
 
               <tbody>
-                {foods.map((food) => (
-                  <tr key={food._id} className="border-b">
 
-                    <td className="p-4">
-                      <img
-                        src={food.image?.url}
-                        alt={food.name}
-                        className="w-16 h-16 rounded-xl object-cover"
-                      />
-                    </td>
+                {foods.length === 0 ? (
 
-                    <td>{food.name}</td>
+                  <tr>
 
-                    <td>{food.restaurant?.name}</td>
-
-                    <td>{food.category?.name}</td>
-
-                    <td>₹ {food.price}</td>
-
-                    <td>
-                      {food.isVeg ? (
-                        <span className="text-green-600 font-semibold">
-                          🟢 Veg
-                        </span>
-                      ) : (
-                        <span className="text-red-600 font-semibold">
-                          🔴 Non Veg
-                        </span>
-                      )}
-                    </td>
-
-                    <td>
-                      <span
-                        className={`px-3 py-1 rounded-full text-sm ${
-                          food.isAvailable
-                            ? "bg-green-100 text-green-700"
-                            : "bg-red-100 text-red-700"
-                        }`}
-                      >
-                        {food.isAvailable ? "Available" : "Unavailable"}
-                      </span>
-                    </td>
-
-                    <td>
-                      <div className="flex justify-center gap-3">
-
-                      <button onClick={() => setEditingFood(food)} className="p-2 rounded-lg bg-yellow-100 text-yellow-600 hover:bg-yellow-200">
-                          <FiEdit />
-                      </button>
-
-                        <button
-                          onClick={() => deleteFood(food._id)}
-                          className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200"
-                        >
-                          <FiTrash2 />
-                        </button>
-
-                      </div>
+                    <td
+                      colSpan="8"
+                      className="text-center py-10 text-gray-500 dark:text-gray-300"
+                    >
+                      No Foods Found
                     </td>
 
                   </tr>
-                ))}
+
+                ) : (
+
+                  foods.map((food) => (
+
+                    <tr
+                      key={food._id}
+                      className="border-b border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition"
+                    >
+
+                      <td className="p-4">
+
+                        <img
+                          src={food.image?.url}
+                          alt={food.name}
+                          className="w-16 h-16 rounded-xl object-cover"
+                        />
+
+                      </td>
+
+                      <td className="font-semibold">
+                        {food.name}
+                      </td>
+
+                      <td className="text-gray-700 dark:text-gray-200">
+                        {food.restaurant?.name}
+                      </td>
+
+                      <td className="text-gray-700 dark:text-gray-200">
+                        {food.category?.name}
+                      </td>
+
+                      <td className="font-medium">
+                        ₹ {food.price}
+                      </td>
+
+                      <td>
+
+                        {food.isVeg ? (
+
+                          <span className="text-green-600 font-semibold">
+                            🟢 Veg
+                          </span>
+
+                        ) : (
+
+                          <span className="text-red-600 font-semibold">
+                            🔴 Non Veg
+                          </span>
+
+                        )}
+
+                      </td>
+
+                      <td>
+
+                        <span
+                          className={`px-3 py-1 rounded-full text-sm ${
+                            food.isAvailable
+                              ? "bg-green-100 text-green-700"
+                              : "bg-red-100 text-red-700"
+                          }`}
+                        >
+                          {food.isAvailable
+                            ? "Available"
+                            : "Unavailable"}
+                        </span>
+
+                      </td>
+
+                      <td>
+
+                        <div className="flex justify-center gap-3">
+
+                          <button
+                            onClick={() => setEditingFood(food)}
+                            className="p-2 rounded-lg bg-yellow-100 text-yellow-600 hover:bg-yellow-200 transition"
+                          >
+                            <FiEdit />
+                          </button>
+
+                          <button
+                            onClick={() => deleteFood(food._id)}
+                            className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition"
+                          >
+                            <FiTrash2 />
+                          </button>
+
+                        </div>
+
+                      </td>
+
+                    </tr>
+
+                  ))
+
+                )}
+
               </tbody>
 
             </table>
+
           </div>
+
         </div>
+
       )}
 
       {/* Modal */}
+
       {showModal && (
         <FoodModal
           onClose={() => setShowModal(false)}
           refreshFoods={fetchFoods}
         />
       )}
+
       {editingFood && (
         <FoodModal
           food={editingFood}
@@ -230,6 +305,7 @@ const Foods = () => {
           refreshFoods={fetchFoods}
         />
       )}
+
     </div>
   );
 };

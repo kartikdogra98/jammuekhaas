@@ -26,9 +26,27 @@ const menuItems = [
   { title: "Settings", icon: FiSettings, path: "/admin/settings" },
 ];
 
-const AdminSidebar = () => {
+const AdminSidebar = ({
+  sidebarOpen,
+  setSidebarOpen,
+  }) => {
   return (
-    <aside className="w-72 bg-slate-900 text-white min-h-screen shadow-xl flex flex-col">
+    <>
+  {sidebarOpen && (
+    <div
+      className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+      onClick={() => setSidebarOpen(false)}
+    />
+  )}
+
+  <aside
+    className={`fixed lg:static top-0 left-0 h-full w-64 lg:w-72 bg-slate-900 text-white shadow-xl flex flex-col z-50 transform transition-transform duration-300
+    ${
+      sidebarOpen
+        ? "translate-x-0"
+        : "-translate-x-full lg:translate-x-0"
+    }`}
+  >
 
       <div className="h-20 flex items-center justify-center border-b border-slate-700">
 
@@ -53,6 +71,7 @@ const AdminSidebar = () => {
 
           return (
             <NavLink
+              onClick={() => setSidebarOpen(false)}
               key={item.title}
               to={item.path}
               end={item.path === "/admin"}
@@ -82,7 +101,8 @@ const AdminSidebar = () => {
   </button>
 </div>
 
-    </aside>
+</aside>
+</>
   );
 };
 

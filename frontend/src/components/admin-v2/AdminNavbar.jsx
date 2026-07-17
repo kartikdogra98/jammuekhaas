@@ -1,22 +1,35 @@
-import { FiBell, FiSearch } from "react-icons/fi";
+import { FiBell, FiSearch, FiMenu } from "react-icons/fi";
 
-const AdminNavbar = () => {
+
+const AdminNavbar = ({
+  setSidebarOpen,
+  }) => {
   return (
-    <header className="bg-white shadow px-8 h-20 flex items-center justify-between">
+    <header className="bg-white dark:bg-slate-800 dark:text-white shadow px-4 sm:px-8 h-20 flex items-center justify-between">
 
-      <div className="relative w-96">
+<div className="flex items-center gap-4">
+
+    <button
+    className="lg:hidden"
+    onClick={() => setSidebarOpen(true)}
+    >
+    <FiMenu size={26}/>
+    </button>
+
+    <div className="relative hidden lg:block flex-1 max-w-md">
 
         <FiSearch className="absolute left-4 top-4 text-gray-400" />
 
         <input
           type="text"
           placeholder="Search anything..."
-          className="w-full h-12 rounded-xl border pl-12 pr-4 focus:outline-none"
+          className="w-full h-12 rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 pl-12 pr-4 focus:outline-none"
         />
 
-      </div>
+</div>
 
-      <div className="flex items-center gap-6">
+</div>
+<div className="flex items-center gap-3 sm:gap-6">
 
         <button className="relative">
 

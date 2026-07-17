@@ -21,7 +21,6 @@ const Categories = () => {
   const fetchCategories = async () => {
     try {
       const { data } = await api.get("/categories");
-
       setCategories(data.categories);
     } catch (err) {
       console.log(err);
@@ -61,17 +60,16 @@ const Categories = () => {
   );
 
   return (
-    <div>
+    <div className="text-slate-900 dark:text-white">
 
-      <div className="flex justify-between items-center mb-8">
-
+<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-8">
         <div>
 
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-2xl sm:text-3xl font-bold">
             Categories Management
           </h1>
 
-          <p className="text-gray-500">
+          <p className="text-gray-500 dark:text-gray-300">
             Manage Food Categories
           </p>
 
@@ -79,7 +77,7 @@ const Categories = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="bg-dogra-maroon text-white px-6 py-3 rounded-xl flex items-center gap-2"
+          className="bg-dogra-maroon hover:bg-dogra-maroon/90 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl flex items-center gap-2 transition"
         >
           <FiPlus />
           Add Category
@@ -92,27 +90,35 @@ const Categories = () => {
         placeholder="Search Category..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="w-full border rounded-xl px-5 py-3 mb-8"
+        className="w-full border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-gray-400 rounded-xl px-5 py-3 mb-8 focus:outline-none focus:ring-2 focus:ring-dogra-maroon"
       />
 
       {loading ? (
-        <p>Loading...</p>
+        <p className="text-center py-10 text-gray-500 dark:text-gray-300">
+          Loading Categories...
+        </p>
       ) : (
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden border border-transparent dark:border-slate-700">
 
           <div className="overflow-x-auto">
 
-            <table className="w-full">
+          <table className="w-full">
 
-              <thead className="bg-slate-100">
+              <thead className="bg-slate-100 dark:bg-slate-700">
 
                 <tr>
 
-                  <th className="p-4 text-left">Image</th>
+                  <th className="p-4 text-left text-slate-700 dark:text-white">
+                    Image
+                  </th>
 
-                  <th className="text-left">Category</th>
+                  <th className="text-left text-slate-700 dark:text-white">
+                    Category
+                  </th>
 
-                  <th className="text-center">Actions</th>
+                  <th className="text-center text-slate-700 dark:text-white">
+                    Actions
+                  </th>
 
                 </tr>
 
@@ -120,55 +126,72 @@ const Categories = () => {
 
               <tbody>
 
-                {filteredCategories.map((category) => (
+                {filteredCategories.length === 0 ? (
 
-                  <tr
-                    key={category._id}
-                    className="border-b"
-                  >
+                  <tr>
 
-                    <td className="p-4">
-
-                      <img
-                        src={
-                          category.image?.url ||
-                          "https://placehold.co/80x80?text=Category"
-                        }
-                        alt={category.name}
-                        className="w-16 h-16 rounded-xl object-cover"
-                      />
-
-                    </td>
-
-                    <td className="font-semibold">
-                      {category.name}
-                    </td>
-
-                    <td>
-
-                      <div className="flex justify-center gap-3">
-
-                        <button
-                          onClick={() => setEditingCategory(category)}
-                          className="p-2 rounded-lg bg-yellow-100 text-yellow-600 hover:bg-yellow-200"
-                        >
-                          <FiEdit />
-                        </button>
-
-                        <button
-                          onClick={() => deleteCategory(category._id)}
-                          className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200"
-                        >
-                          <FiTrash2 />
-                        </button>
-
-                      </div>
-
+                    <td
+                      colSpan="3"
+                      className="text-center py-10 text-gray-500 dark:text-gray-300"
+                    >
+                      No Categories Found
                     </td>
 
                   </tr>
 
-                ))}
+                ) : (
+
+                  filteredCategories.map((category) => (
+
+                    <tr
+                      key={category._id}
+                      className="border-b border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition"
+                    >
+
+                      <td className="p-4">
+
+                        <img
+                          src={
+                            category.image?.url ||
+                            "https://placehold.co/80x80?text=Category"
+                          }
+                          alt={category.name}
+                          className="w-16 h-16 rounded-xl object-cover"
+                        />
+
+                      </td>
+
+                      <td className="font-semibold text-slate-900 dark:text-white">
+                        {category.name}
+                      </td>
+
+                      <td>
+
+                        <div className="flex justify-center gap-3">
+
+                          <button
+                            onClick={() => setEditingCategory(category)}
+                            className="p-2 rounded-lg bg-yellow-100 text-yellow-600 hover:bg-yellow-200 transition"
+                          >
+                            <FiEdit />
+                          </button>
+
+                          <button
+                            onClick={() => deleteCategory(category._id)}
+                            className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition"
+                          >
+                            <FiTrash2 />
+                          </button>
+
+                        </div>
+
+                      </td>
+
+                    </tr>
+
+                  ))
+
+                )}
 
               </tbody>
 

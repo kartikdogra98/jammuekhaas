@@ -21,6 +21,7 @@ const Dashboard = () => {
     revenueTrend: [],
     orderStatus: [],
     topRestaurants: [],
+    topFoods: [],
   });
 
   useEffect(() => {
@@ -30,7 +31,6 @@ const Dashboard = () => {
   const fetchDashboard = async () => {
     try {
       const { data } = await api.get("/admin/analytics");
-
       setAnalytics(data);
     } catch (err) {
       console.log(err);
@@ -71,14 +71,15 @@ const Dashboard = () => {
   ];
 
   return (
-    <div>
-      <h1 className="text-4xl font-bold text-slate-800 mb-8">
+    <div className="text-slate-900 dark:text-white">
+
+      <h1 className="text-4xl font-bold mb-8">
         Dashboard
       </h1>
 
       {/* Statistics Cards */}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
 
         {stats.map((item, index) => {
           const Icon = item.icon;
@@ -86,24 +87,24 @@ const Dashboard = () => {
           return (
             <div
               key={index}
-              className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-2xl transition"
+              className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-2xl transition p-6 border border-transparent dark:border-slate-700"
             >
-              <div className="flex justify-between items-center">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
 
                 <div>
 
-                  <p className="text-gray-500">
+                  <p className="text-gray-500 dark:text-gray-300">
                     {item.title}
                   </p>
 
-                  <h2 className="text-3xl font-bold mt-2">
+                  <h2 className="text-2xl sm:text-3xl font-bold mt-2 text-slate-900 dark:text-white">
                     {item.value}
                   </h2>
 
                 </div>
 
                 <div
-                  className={`${item.color} w-16 h-16 rounded-2xl flex items-center justify-center text-white`}
+                  className={`${item.color} w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg`}
                 >
                   <Icon size={30} />
                 </div>
@@ -119,9 +120,13 @@ const Dashboard = () => {
 
       <div className="grid lg:grid-cols-2 gap-6 mt-10">
 
-        <RevenueChart data={analytics.revenueTrend} />
+        <RevenueChart
+          data={analytics.revenueTrend}
+        />
 
-        <OrderPieChart data={analytics.orderStatus} />
+        <OrderPieChart
+          data={analytics.orderStatus}
+        />
 
       </div>
 
@@ -131,19 +136,19 @@ const Dashboard = () => {
         <RecentOrders />
       </div>
 
-      {/* Top Restaurants */}
+      {/* Top Restaurants & Foods */}
 
       <div className="grid lg:grid-cols-2 gap-6 mt-8">
 
-    <TopRestaurants
-        restaurants={analytics.topRestaurants}
-    />
+        <TopRestaurants
+          restaurants={analytics.topRestaurants}
+        />
 
-    <TopFoods
-        foods={analytics.topFoods}
-    />
+        <TopFoods
+          foods={analytics.topFoods}
+        />
 
-</div>
+      </div>
 
     </div>
   );

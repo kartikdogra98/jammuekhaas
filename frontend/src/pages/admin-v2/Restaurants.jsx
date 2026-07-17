@@ -58,22 +58,22 @@ const Restaurants = () => {
     };
   
     return (
-      <div>
-        <div className="flex justify-between items-center mb-8">
+      <div className="text-slate-900 dark:text-white">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-8">
 
 <div>
-  <h1 className="text-3xl font-bold">
+  <h1 className="text-2xl sm:text-3xl font-bold">
     Restaurant Management
   </h1>
 
-  <p className="text-gray-500">
+  <p className="text-gray-500 dark:text-gray-300">
     Manage all restaurants
   </p>
 </div>
 
 <button
   onClick={() => setShowModal(true)}
-  className="bg-dogra-maroon text-white px-6 py-3 rounded-xl hover:bg-red-900 transition"
+  className="bg-dogra-maroon text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:bg-red-900 transition shadow-lg"
 >
   + Add Restaurant
 </button>
@@ -82,21 +82,23 @@ const Restaurants = () => {
 <input
   type="text"
   placeholder="Search restaurant..."
-  className="w-full border rounded-xl px-5 py-3 mb-8"
+  className="w-full border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl px-5 py-3 mb-8"
 />
   
         {/* Keep your existing heading and search bar */}
   
         {loading ? (
-  <p>Loading...</p>
+  <p className="text-center py-10 text-slate-700 dark:text-gray-300">
+  Loading...
+</p>
 ) : (
-  <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden border border-transparent dark:border-slate-700">
 
     <div className="overflow-x-auto">
 
-      <table className="w-full">
+    <table className="min-w-[700px] w-full">
 
-        <thead className="bg-slate-100">
+      <thead className="bg-slate-100 dark:bg-slate-700">
           <tr>
             <th className="p-4 text-left">Image</th>
             <th className="text-left">Restaurant</th>
@@ -111,11 +113,14 @@ const Restaurants = () => {
 
           {restaurants.map((restaurant) => (
 
-            <tr key={restaurant._id} className="border-b">
+            <tr key={restaurant._id} className="border-b border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition">
 
               <td className="p-4">
               <img
-  src={restaurant.image.url}
+  src={
+    restaurant.image?.url ||
+    "https://placehold.co/100x100?text=Restaurant"
+  }
   alt={restaurant.name}
   className="w-16 h-16 rounded-xl object-cover"
 />
@@ -125,14 +130,14 @@ const Restaurants = () => {
 
               <td>{restaurant.cuisine.join(", ")}</td>
 
-              <td>⭐ {restaurant.rating}</td>
+              <td>⭐ {restaurant.rating || 0}</td>
 
               <td>
                 <span
                   className={`px-3 py-1 rounded-full ${
                     restaurant.isApproved
-                      ? "bg-green-100 text-green-700"
-                      : "bg-red-100 text-red-700"
+                      ? "bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300"
+                      : "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300"
                   }`}
                 >
                   {restaurant.isApproved ? "Approved" : "Pending"}
