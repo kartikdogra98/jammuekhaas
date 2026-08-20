@@ -20,34 +20,38 @@ const Login = () => {
 
   const onSubmit = async (values) => {
     const result = await dispatch(loginUser(values));
+  
     if (result.meta.requestStatus === "fulfilled") {
       toast.success("Welcome back!");
-    
+  
       const user = result.payload.user;
-    
+  
+      // Admin should always go to Home after login
+      if (user.role === "admin") {
+        navigate("/");
+        return;
+      }
+  
+      // For other protected routes, preserve the original destination
       if (location.state?.from?.pathname) {
         navigate(location.state.from.pathname);
         return;
       }
-    
+  
       switch (user.role) {
-        case "admin":
-          navigate("/admin");
-          break;
-    
         case "restaurant":
           navigate("/restaurant-dashboard");
           break;
-    
+  
         case "delivery":
           navigate("/delivery-dashboard");
           break;
-    
+  
         default:
           navigate("/");
       }
     } else {
-      toast.error(result.payload || 'Login failed');
+      toast.error(result.payload || "Login failed");
     }
   };
 

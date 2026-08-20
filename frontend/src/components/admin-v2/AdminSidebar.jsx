@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import {
   FiHome,
   FiShoppingBag,
@@ -48,21 +48,21 @@ const AdminSidebar = ({
     }`}
   >
 
-      <div className="h-20 flex items-center justify-center border-b border-slate-700">
+<div className="h-20 flex items-center justify-center border-b border-slate-700">
+  <Link
+    to="/"
+    className="text-center hover:opacity-90 transition"
+    onClick={() => setSidebarOpen(false)}
+  >
+    <h1 className="text-2xl font-bold text-dogra-gold">
+      Jammu-e-Khaas
+    </h1>
 
-        <div className="text-center">
-
-          <h1 className="text-2xl font-bold text-dogra-gold">
-            Jammu-e-Khaas
-          </h1>
-
-          <p className="text-xs text-gray-400">
-            ADMIN PANEL
-          </p>
-
-        </div>
-
-      </div>
+    <p className="text-xs text-gray-400">
+      ADMIN PANEL
+    </p>
+  </Link>
+</div>
 
       <div className="p-5">
 
