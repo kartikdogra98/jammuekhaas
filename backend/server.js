@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -32,83 +33,160 @@ connectDB();
 
 const app = express();
 
-// Security & core middleware
+// --------------------------------------------------
+// Security & Core Middleware
+// --------------------------------------------------
+
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://jammuekhaas.vercel.app",
+  'http://localhost:5173',
+  'https://jammuekhaas.vercel.app',
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (Postman, mobile apps, etc.)
-      if (!origin) return callback(null, true);
+      // Allow requests with no origin
+      // Example: Postman, mobile apps, etc.
+      if (!origin) {
+        return callback(null, true);
+      }
 
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
 
-      return callback(new Error("Not allowed by CORS"));
+      return callback(new Error('Not allowed by CORS'));
     },
     credentials: true,
   })
 );
+
+app.use(helmet());
+
 app.use(express.json({ limit: '10mb' }));
+
 app.use(express.urlencoded({ extended: true }));
+
 app.use(cookieParser());
+
 app.use(mongoSanitize());
+
 app.use(xss());
+
+// --------------------------------------------------
+// Logger
+// --------------------------------------------------
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+// --------------------------------------------------
+// Rate Limiting
+// --------------------------------------------------
+
 const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 min
+  windowMs: 15 * 60 * 1000,
   max: 300,
   standardHeaders: true,
   legacyHeaders: false,
-  message: { success: false, message: 'Too many requests, please try again later.' },
+  message: {
+    success: false,
+    message: 'Too many requests, please try again later.',
+  },
 });
+
 app.use('/api', apiLimiter);
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 20,
-  message: { success: false, message: 'Too many auth attempts, please try again later.' },
+  message: {
+    success: false,
+    message: 'Too many auth attempts, please try again later.',
+  },
 });
+
 app.use('/api/auth/login', authLimiter);
 app.use('/api/auth/register', authLimiter);
 app.use('/api/auth/forgot-password', authLimiter);
 
-// Health check
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ success: true, message: 'Jammu-e-Khaas API is running', time: new Date().toISOString() });
+// --------------------------------------------------
+// Root Route
+// --------------------------------------------------
+
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Jammu-e-Khaas API is running',
+  });
 });
 
-// Mount routes
+// --------------------------------------------------
+// Health Check
+// --------------------------------------------------
+
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Jammu-e-Khaas API is running',
+    time: new Date().toISOString(),
+  });
+});
+
+// --------------------------------------------------
+// API Routes
+// --------------------------------------------------
+
 app.use('/api/auth', authRoutes);
+
 app.use('/api/restaurants', restaurantRoutes);
+
 app.use('/api/foods', foodRoutes);
+
 app.use('/api/cart', cartRoutes);
+
 app.use('/api/orders', orderRoutes);
+
 app.use('/api/payments', paymentRoutes);
+
 app.use('/api/reviews', reviewRoutes);
+
 app.use('/api/coupons', couponRoutes);
+
 app.use('/api/addresses', addressRoutes);
+
 app.use('/api/wishlist', wishlistRoutes);
+
 app.use('/api/categories', categoryRoutes);
+
 app.use('/api/notifications', notificationRoutes);
+
 app.use('/api/admin', adminRoutes);
+
 app.use('/api/delivery', deliveryRoutes);
+
 app.use('/api/banners', bannerRoutes);
 
+// --------------------------------------------------
+// Error Handling
+// IMPORTANT: These MUST remain at the bottom
+// --------------------------------------------------
+
 app.use(notFound);
+
 app.use(errorHandler);
 
+// --------------------------------------------------
+// Server
+// --------------------------------------------------
+
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
-  console.log(`Jammu-e-Khaas API server running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
+  console.log(
+    `Jammu-e-Khaas API server running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`
+  );
 });
 
 module.exports = app;
